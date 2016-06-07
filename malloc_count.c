@@ -83,7 +83,7 @@ static void inc_count(size_t inc)
 #if THREAD_SAFE_GCC_INTRINSICS
     long long mycurr = __sync_add_and_fetch(&curr, inc);
     if (mycurr > peak) peak = mycurr;
-    total += inc;
+    __sync_add_and_fetch(&total, inc);
     if (callback) callback(callback_cookie, mycurr);
 #else
     if ((curr += inc) > peak) peak = curr;
